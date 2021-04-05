@@ -41,8 +41,10 @@ class getHoroscopesCommand extends Command
      */
     public function handle()
     {
+        $this->info("撈取資料開始");
         $now = Carbon::now();
         $data = [];
+        $this->comment("現在時間$now");
 
         $target_url = "https://astro.click108.com.tw/";
         $url_html = Http::get($target_url)->body();
@@ -53,6 +55,7 @@ class getHoroscopesCommand extends Command
             $constellation_url = $node->attr('href');
             $redirect_url = urldecode(explode("RedirectTo=", $constellation_url)[1]);
             $constellation_html = Http::get($redirect_url)->body();
+            $this->info("撈取 $name 的運勢");
 
             $constellation_crawler = new Crawler($constellation_html);
 
@@ -72,7 +75,9 @@ class getHoroscopesCommand extends Command
             ];
         });
 
+        $this->comment("撈取完成，儲存資料庫");
         DB::table('horoscopes')->insert($data);
+        $this->info("任務完成");
 
         return 0;
     }
