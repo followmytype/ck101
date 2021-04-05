@@ -53,6 +53,9 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
+                                <a href="{{ route('google_login') }}" class="btn btn-primary">
+                                    Google Login
+                                </a>
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
